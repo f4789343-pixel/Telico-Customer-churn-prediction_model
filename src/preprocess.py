@@ -13,24 +13,34 @@ df["Partner"] = df["Partner"].map({"Yes": 1, "No": 0})
 df["Dependents"] = df["Dependents"].map({"Yes": 1, "No": 0})
 df["PhoneService"] = df["PhoneService"].map({"Yes": 1, "No": 0})
 df['Churn'] = df["Churn"].map({"Yes": 1, "No": 0})
-encoded_mult = pd.get_dummies(df['MultipleLines'], dtype=int)
-encoded_int_serv = pd.get_dummies(df["InternetService"], dtype=int)
-encoded_onl_serv = pd.get_dummies(df["OnlineSecurity"], dtype=int)
-encoded_contract = pd.get_dummies(df["Contract"], dtype=int)
 
-features = ["gender","SeniorCitizen","Partner", "Dependents", "tenure", "PhoneService"]
-X = df[features]
+encoded_mult = pd.get_dummies(df["MultipleLines"], prefix="MultipleLines")
+encoded_int_serv = pd.get_dummies(df["InternetService"], prefix="InternetService")
+encoded_onl_serv = pd.get_dummies(df["OnlineSecurity"], prefix="OnlineSecurity")
+encoded_contract = pd.get_dummies(df["Contract"], prefix="Contract")
+
+
+X = pd.concat([df[["gender","SeniorCitizen","Partner", "Dependents", "tenure", "PhoneService"]],encoded_mult,encoded_int_serv,encoded_onl_serv,encoded_contract], axis=1)
 y = df["Churn"]
-X = pd.concat([X,encoded_mult,encoded_int_serv,encoded_onl_serv,encoded_contract], axis=1)
 
 x_train,x_test,y_train,y_test = train_test_split(X,y,test_size=0.2,random_state=42)
+print(x_train.columns.tolist())
 scaler = StandardScaler()
 x_train = scaler.fit_transform(x_train)
 x_test = scaler.transform(x_test)
 print(x_train.shape)
 print(x_test.shape)
 print(y.value_counts())
+print(df.columns.tolist())
+print(df['tenure'].min())
 
 
+print(df['MultipleLines'].value_counts())
+print(df['InternetService'].value_counts())
+print(df['OnlineSecurity'].value_counts())
+print(df['Contract'].value_counts())
 
-
+print(X)
+training_columns = X.columns.tolist()
+print(training_columns)
+print(df.columns.to_series().to_string(index=False))
