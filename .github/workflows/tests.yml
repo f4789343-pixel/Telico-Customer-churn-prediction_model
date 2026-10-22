@@ -13,7 +13,7 @@ jobs:
    POSTGRES_PASSWORD: postgres
    DB_HOST: 'localhost'
    DB_PORT: '5432'
-   DB_NAME: 'Telico_churn'
+   DB_NAME: Telico_churn
    DB_USER: postgres
    DB_SSLMODE: disable
    
@@ -32,7 +32,7 @@ jobs:
       pip install -r requirements.txt
       pip install pytest httpx
 
-   - name: Start postgreSQL
+   - name: Start PostgreSQL
      run: docker compose up -d db
 
    - name: Wait for PostgreSQL
@@ -45,14 +45,23 @@ jobs:
       done
       docker compose logs db
       exit 1
+
    - name: Create prediction history table
      run: |
       docker compose exec -T db psql -U postgres -d Telico-churn -c "
       CREATE TABLE IF NOT EXISTS prediction_history(id serial primary key, 
-      gender TEXT NOT NULL, SeniorCitizen INT NOT NULL, 
-      Partner TEXT NOT NULL, Dependents TEXT NOT NULL, 
-      tenure INT NOT NULL, PhoneService TEXT NOT NULL, 
+      gender TEXT NOT NULL, 
+      SeniorCitizen INT NOT NULL, 
+      Partner TEXT NOT NULL, 
+      Dependents TEXT NOT NULL, 
+      tenure INT NOT NULL, 
+      PhoneService TEXT NOT NULL, 
       MultipleLines TEXT NOT NULL, 
-      InternetService TEXT NOT NULL, OnlineSecurity TEXT NOT NULL, Contract TEXT NOT NULL, prediction INT NOT NULL,created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
+      InternetService TEXT NOT NULL, 
+      OnlineSecurity TEXT NOT NULL, 
+      Contract TEXT NOT NULL, 
+      prediction INT NOT NULL,
+      created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
+      
    - name:  Run tests
      run: python -m pytest -v
