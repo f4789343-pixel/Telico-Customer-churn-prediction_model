@@ -2,12 +2,12 @@ name: Run Tests
 
 on:
  push:
- pull_requests:
+ pull_request:
  workflow_dispatch:
 
 jobs:
  tests:
-  run_on: ubuntu-latest
+  run-on: ubuntu-latest
 
   env:
    POSTGRES_PASSWORD: postgres
