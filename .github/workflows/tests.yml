@@ -38,7 +38,7 @@ jobs:
    - name: Wait for PostgreSQL
      run: |
       for i in {1..30}; do
-       if docker compose exec -T db pg_isready -U postgres -d Telico-churn; then
+       if docker compose exec -T db pg_isready -U postgres -d Telico_churn; then
         exit 0
        fi
        sleep 2
@@ -48,7 +48,7 @@ jobs:
 
    - name: Create prediction history table
      run: |
-      docker compose exec -T db psql -U postgres -d Telico-churn -c "
+      docker compose exec -T db psql -U postgres -d Telico_churn -c "
       CREATE TABLE IF NOT EXISTS prediction_history(id serial primary key, 
       gender TEXT NOT NULL, 
       SeniorCitizen INT NOT NULL, 
@@ -62,6 +62,6 @@ jobs:
       Contract TEXT NOT NULL, 
       prediction INT NOT NULL,
       created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP);"
-      
+
    - name:  Run tests
      run: python -m pytest -v
