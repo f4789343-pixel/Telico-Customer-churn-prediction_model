@@ -11,11 +11,12 @@ import numpy as np
 from typing import Literal
 from src.preprocess import training_columns
 
+load_dotenv()
 password = os.getenv("DB_PASSWORD") or os.getenv("POSTGRES_PASSWORD")
-db_host = os.getenv("DB_HOST","localhost")
-db_port = int(os.getenv("DB_PORT", "5432"))
-db_name = os.getenv("DB_NAME","Telico_churn")
-db_user = os.getenv("DB_USER","postgres")
+db_host = os.getenv("DB_HOST")
+db_port = int(os.getenv("DB_PORT"))
+db_name = os.getenv("DB_NAME")
+db_user = os.getenv("DB_USER")
 ssl_mode = os.getenv("DB_SSLMODE", "prefer")
 
 model = joblib.load("Customer-Churn-Prediction_Model")
