@@ -40,7 +40,8 @@ jobs:
       for i in {1..30}; do
        if docker compose exec -T db pg_isready -U postgres -d Telico-churn; then
         exit 0
-        sleep 2
+        fi
+       sleep 2
       done 
       docker compose logs db
       exit 1
