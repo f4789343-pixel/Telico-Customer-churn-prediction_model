@@ -35,14 +35,14 @@ jobs:
    - name: Start postgreSQL
      run: docker compose up -d db
 
-   - name: wait for postgreSQL
-     run: | 
+   - name: Wait for PostgreSQL
+     run: |
       for i in {1..30}; do
        if docker compose exec -T db pg_isready -U postgres -d Telico-churn; then
         exit 0
-        fi
+       fi
        sleep 2
-      done 
+      done
       docker compose logs db
       exit 1
    - name: Create prediction history table
