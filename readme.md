@@ -75,7 +75,7 @@ roc_auc_score: 0.8559550550167171
 - FastAPI and Pydantic
 - PostgreSQL
 - Docker and Docker Compose
-- Render or [hosting platform]
+- Render and neon
 
 ## 8. Project Structure
 
