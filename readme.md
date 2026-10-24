@@ -278,14 +278,15 @@ Document known model limitations, dataset limitations, performance concerns, and
 * Model limitations: Accuracy is not improving even with different classification algorithms.
 * The features are not explaining variations more accurately that's changing algorithms are not improving accuarcy.
 * dataset limitations: There are many string features that requires more preprocessing and many features not explaining variations in dataset.
-* deployment limitations: Getting outputs from docs may take longer cause of free host(render and neon).
-* inputs are case sensitive, inserting all lowercase and uppercases gives errors.
+* deployment limitations: Application may take longer to run.
+* Getting outputs from docs may take longer cause of free host(render and neon).
+* inputs are case sensitive, inserting all lowercase and uppercases gives errors, strings.
 
 ## 15. Future Improvements
 
 * Choosing features that explain more variance in datasets, may improve performance accuracy.
 * Improve the input valdations more conveniently.
 * handles the errors more clearly.
-* Chooses the stronger hosting performance and fixes the service future service errors.
+* Chooses the stronger hosting performance and fixes the service future service errors and longer loading issues.
 * Try to improve accuracy by using the dimensonality reduction, it will may explain more variance.
 * improve the feature engineering.
