@@ -46,7 +46,8 @@ Describe the complete pipeline:
 4. Generate a prediction using the trained model.
 5. Return the prediction as JSON.
 6. Store the prediction and relevant input data in PostgreSQL.
-
+* **URL:** https://telico-customer-churn-prediction-model.onrender.com
+* **URL/docs:** https://telico-customer-churn-prediction-model.onrender.com/docs
 
 ## 5. Model Development
 
