@@ -12,9 +12,9 @@ from typing import Literal
 from src.preprocess import training_columns
 
 load_dotenv()
-password = os.getenv("DB_PASSWORD") or os.getenv("POSTGRES_PASSWORD")
-db_host = os.getenv("DB_HOST","5432")
-db_port = int(os.getenv("DB_PORT"))
+password = os.getenv("DB_PASSWORD") or os.getenv("POSTGRES_PASSWORD") 
+db_host = os.getenv("DB_HOST")
+db_port = int(os.getenv("DB_PORT") or "5432")
 db_name = os.getenv("DB_NAME")
 db_user = os.getenv("DB_USER")
 ssl_mode = os.getenv("DB_SSLMODE", "prefer")
