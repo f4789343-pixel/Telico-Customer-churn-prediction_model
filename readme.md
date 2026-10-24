@@ -58,7 +58,6 @@ Describe the complete pipeline:
 ## 6. Model Evaluation
 
 | Metric | Result |
-|---|---:|
 Accuracy: 0.8076650106458482
 Precision Score: 0.659375
 Recall Score: 0.5656836461126006
