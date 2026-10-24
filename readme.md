@@ -13,10 +13,10 @@ Explain:
 
 Describe the problem, the prediction objective, the target variable, and the expected inputs.
 
-**Problem:** Identify customers who are likely to stop using the service.
-**predicts:** Model predicts the customers who are likely to stop using the service by learning patterns in stored datasets.
-**target variable:** Churn
-**expected inputs:** ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
+- **Problem:** Identify customers who are likely to stop using the service.
+- **predicts:** Model predicts the customers who are likely to stop using the service by learning patterns in stored datasets.
+- **target variable:** Churn
+- **expected inputs:** ['gender', 'SeniorCitizen', 'Partner', 'Dependents',
        'tenure', 'PhoneService', 'MultipleLines', 'InternetService',
        'OnlineSecurity','Contract']
 
@@ -126,31 +126,103 @@ Explain how to create a virtual environment and install dependencies.
 2. run the git clone
 3. create folder for it
 4. create virtual environment.
-5. 
+5. install requirements.txt
+6. run pytest
 
 ### Environment Variables
 
-Document the required variable names and their purposes. Provide example placeholders, never real credentials.
+- **Database_password**
+- **DB_HOST**
+- **DB_PORT**
 
 ### Run Locally
 
 Provide the commands to start the API and any required database services.
+1. create virtual environment. `bash python -m venv venv` 
+2. install requirements.txt. `python -m pip install -r requirements.txt`
+3. install uvicorn. `pip install uvicorn`
+4. run uvicorn. `python -m uvicorn api:app --reload`
+5. open browser and search URL. `http://localhost:8000/docs`
 
 ## 10. Docker Deployment
 
-Explain how to build and start the application:
+The application uses Docker Compose to run the FastAPI service and PostgreSQL database in separate containers.
+
+### Services
+
+- **API:** Runs the FastAPI application and exposes the prediction endpoints.
+- **PostgreSQL:** Stores prediction history and other application data.
+
+### Port Configuration
+
+| Service | Container Port | Host Port |
+|---|---:|---:|
+| FastAPI | 8000 | 8000 |
+| PostgreSQL | 5432 | 5432 |
+
+The API is accessible locally at `http://localhost:8000`. Interactive API documentation is available at `http://localhost:8000/docs`.
+
+The PostgreSQL host port is only needed for direct connections from the host machine; the API connects to the database using the database service name and container port.
+
+
+### Database Configuration
+
+Database settings are provided through environment variables. Configure the required values in your local environment file or deployment environment.
+
+Do not commit passwords, database credentials, or other secrets to version control.
+
+### Persistent Storage
+
+Docker Compose uses a named volume to persist PostgreSQL data beyond the lifetime of an individual container.
+
+Stopping or recreating containers does not normally delete the named volume. Removing the volume, however, can permanently delete the stored database data.
+
+### Start the Application
+
+Build the image and start the services:
 
 ```bash
 docker compose up --build
 ```
 
-Document the exposed ports, services, database configuration, persistent storage, and shutdown procedure.
+Run the services in the background:
+
+```bash
+docker compose up --build -d
+```
+
+### View Logs
+
+```bash
+docker compose logs -f
+```
+
+To view logs for only the API service:
+
+```bash
+docker compose logs -f api
+```
+
+Replace `api` with the actual service name in your Compose file if it differs.
+
+### Stop the Application
+
+Stop and remove the running containers and Compose-created network:
+
+```bash
+docker compose down
+```
+
+The named database volume is retained by default, so database records can persist when the services are started again.
+
+**Warning:** Use `docker compose down -v` only when you intentionally want to remove the associated named volumes and their stored database data.
 
 ## 11. API Documentation
 
 ### `GET /health`
 
-Describe the health-check response.
+* health check returns healthy, if API and Database running successfully.
+* It returns unhealthy and detail, if it's not working.
 
 ### `POST /predict`
 
@@ -160,8 +232,16 @@ Explain the required request fields.
 
 ```json
 {
-  "feature_1": 1.0,
-  "feature_2": 2.0
+  "gender": "Female",
+  "SeniorCitizen": 1,
+  "Partner": "Yes",
+  "Dependents": "Yes",
+  "tenure": 0,
+  "PhoneService": "Yes",
+  "MultipleLines": "No",
+  "InternetService": "Fiber optic",
+  "OnlineSecurity": "No",
+  "Contract": "Month-to-month"
 }
 ```
 
@@ -169,13 +249,9 @@ Explain the required request fields.
 
 ```json
 {
-  "prediction": 0.0
+  "prediction": 0
 }
 ```
-
-Replace these examples with the application's actual schema and response.
-
-Explain input validation and relevant error responses.
 
 ## 12. Live Deployment
 
@@ -184,7 +260,6 @@ Explain input validation and relevant error responses.
 - **Hosting platform:** [render]
 - **Database:** [neon]
 
-Explain any deployment-specific configuration without exposing secrets.
 
 ## 13. Testing
 
@@ -198,11 +273,17 @@ Document how to run the tests and verify:
 ## 14. Limitations
 
 Document known model limitations, dataset limitations, performance concerns, and deployment constraints.
+* Model limitations: Accuracy is not improving even with different classification algorithms.
+* The features are not explaining variations more accurately that's changing algorithms are not improving accuarcy.
+* dataset limitations: There are many string features that requires more preprocessing and many features not explaining variations in dataset.
+* deployment limitations: Getting outputs from docs may take longer cause of free host(render and neon).
+* inputs are case sensitive, inserting all lowercase and uppercases gives errors.
 
 ## 15. Future Improvements
 
-List realistic improvements, such as stronger validation, monitoring, model retraining, automated tests, or improved prediction quality.
-
-## 16. License
-
-Specify the project's license, if applicable.
+* Choosing features that explain more variance in datasets, may improve performance accuracy.
+* Improve the input valdations more conveniently.
+* handles the errors more clearly.
+* Chooses the stronger hosting performance and fixes the service future service errors.
+* Try to improve accuracy by using the dimensonality reduction, it will may explain more variance.
+* improve the feature engineering.
