@@ -57,14 +57,16 @@ Describe the complete pipeline:
 
 ## 6. Model Evaluation
 
+```text
 | Metric | Result |
 Accuracy: 0.8076650106458482
 Precision Score: 0.659375
 Recall Score: 0.5656836461126006
 f1 Score: 0.6089466089466089
 Confusion Matrix: [[927 109]
-                  [162 211]]
+                   [162 211]]
 roc_auc_score: 0.8559550550167171
+```
 
 ## 7. Tech Stack
 
