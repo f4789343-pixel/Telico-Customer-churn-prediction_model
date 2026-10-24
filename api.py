@@ -13,10 +13,10 @@ from src.preprocess import training_columns
 
 load_dotenv()
 password = os.getenv("DB_PASSWORD") or os.getenv("POSTGRES_PASSWORD") 
-db_host = os.getenv("DB_HOST")
+db_host = os.getenv("DB_HOST") or "localhost"
 db_port = int(os.getenv("DB_PORT") or "5432")
-db_name = os.getenv("DB_NAME")
-db_user = os.getenv("DB_USER")
+db_name = os.getenv("DB_NAME") or "Telico_churn"
+db_user = os.getenv("DB_USER") or "postgres"
 ssl_mode = os.getenv("DB_SSLMODE", "prefer")
 
 model = joblib.load("Customer-Churn-Prediction_Model")
